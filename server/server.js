@@ -17,17 +17,15 @@ var io = socketIO(server);
 io.on('connection', (socket) => {   //registers event listenter 'connection'
 console.log("New User Connected");
 
-var date = Date();
 
-socket.emit('newMessage', {   //emitting event to client
-    from:'Cleon@gmail.com',
-    text: "Hey, Katie! Let's meet for lunch.",
-    craetedAt: date
-});
+socket.on('createMessage', (message) => {  //listening for event from client
+console.log('createMessage: ', message);
 
-socket.on('createMessage', (newMessage) => {  //listening for event from client
-
-        console.log('createMessage: ', newMessage);
+        io.emit('newMessage', {  //emits to every single connection listening for newMessage emit
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        });
         
     });
 
