@@ -17,11 +17,23 @@ var io = socketIO(server);
 io.on('connection', (socket) => {   //registers event listenter 'connection'
 console.log("New User Connected");
 
+socket.emit('newMessage', {  //sent to client when initial client connection is made with server
+    from:'Admin',
+    text:"Welcome!"
+
+});
+
+socket.broadcast.emit('newMessage', { //sent to clients who have already connected and another session has been established on same socket
+from: 'Admin',
+text: "New user joined",
+createdAt: new Date().getTime()
+});
+
 
 socket.on('createMessage', (message) => {  //listening for event from client
 console.log('createMessage: ', message);
 
-        io.emit('newMessage', {  //emits to every single connection listening for newMessage emit
+        io.emit('newMessage', {  //emits to every single connection listening for 'createMessage' socket.on
             from: message.from,
             text: message.text,
             createdAt: new Date().getTime()
@@ -32,10 +44,7 @@ console.log('createMessage: ', message);
 socket.on('disconnect', () => {
 console.log("Server was disconnected");
 });
-});
-
-
-
+})
 
 
 server.listen(port, () => {
