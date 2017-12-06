@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "node-chat-app",
-=======
-  "name": "chat-app",
->>>>>>> e85b91a424c9f846b710bc707f392dcf82be48e6
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,16 +9,11 @@
     "test-watch": "nodemon --exec 'npm test'"
   },
   "engines": {
-<<<<<<< HEAD
     "node": "6.2.2"
-=======
-    "node": "8.9.1"
->>>>>>> e85b91a424c9f846b710bc707f392dcf82be48e6
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "express": "^4.14.0",
     "socket.io": "^1.4.8"
   },
@@ -30,13 +21,5 @@
     "expect": "^1.20.2",
     "mocha": "^3.0.2",
     "nodemon": "^1.10.2"
-=======
-    "expect": "^1.20.2",
-    "express": "^4.16.2",
-    "socket.io": "^2.0.4"
-  },
-  "devDependencies": {
-    "mocha": "^4.0.1"
->>>>>>> e85b91a424c9f846b710bc707f392dcf82be48e6
   }
 }
