@@ -8,9 +8,19 @@
 </head>
 <body>
 
-    <h1>Welcome to the Chat App</h1>
+    <h1 style="color:blue">Welcome to the Chat App</h1>
+
+    <ul style="list-style-type: square" id="messages"></ul>
+
+    <form id="message-form">
+        <input name="message" type="text" placeholder="Message" />
+<button>Send</button>
+
+    </form>
+
 
 <script src ="/socket.io/socket.io.js"></script>
+<script src="/js/libs/jquery-3.2.1.min.js"></script>
 <script src= '/js/index.js'></script>
 </body>
 </html>

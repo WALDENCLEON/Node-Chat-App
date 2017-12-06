@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
 const express = require('express');
-
+const {generateMessage} = require('./utils/message'); //importing returned objected from generateMessage function
 const port = process.env.PORT || 3000;
 var app = express();
 
@@ -10,6 +10,7 @@ var server = http.createServer(app);
 
 
 const publicPath = path.join(__dirname, '../public');
+
 app.use(express.static(publicPath));
 
 var io = socketIO(server);
@@ -17,37 +18,30 @@ var io = socketIO(server);
 io.on('connection', (socket) => {   //registers event listenter 'connection'
 console.log("New User Connected");
 
-socket.emit('newMessage', {  //sent to client when initial client connection is made with server
-    from:'Admin',
-    text:"Welcome!"
+    socket.emit('newMessage', generateMessage('Admin', "Welcome to the Chat App"));
 
-});
-
-socket.broadcast.emit('newMessage', { //sent to clients who have already connected and another session has been established on same socket
-from: 'Admin',
-text: "New user joined",
-createdAt: new Date().getTime()
-});
+        socket.broadcast.emit('newMessage', generateMessage("Admin", "Another user has joined"));
+        //sent to clients who have already connected when another session has been established on same socket
 
 
-socket.on('createMessage', (message) => {  //listening for event from client
-console.log('createMessage: ', message);
+        socket.on('createMessage', (message, callback) => {  
+            //listening for event from client, message becomes object from create message that callback becomes ack function 
+        console.log('createMessage: ', message);
 
-        io.emit('newMessage', {  //emits to every single connection listening for 'createMessage' socket.on
-            from: message.from,
-            text: message.text,
-            createdAt: new Date().getTime()
-        });
-        
+
+        //io.emit emits to every single connection listening for 'newMessage' socket.on, only emitting on createMessage input
+            io.emit('newMessage', generateMessage(message.from, message.text));
+            callback("This is from the server");
     });
 
-socket.on('disconnect', () => {
-console.log("Server was disconnected");
-});
-})
+
+    socket.on('disconnect', () => {
+    console.log("Server was disconnected");
+    });
+ });
 
 
-server.listen(port, () => {
-console.log(`Server is running on ${port}`);
-});
+    server.listen(port, () => {
+    console.log(`Server is running on ${port}`);
+    });
 
